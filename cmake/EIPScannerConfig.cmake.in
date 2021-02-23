@@ -1,0 +1,8 @@
+@PACKAGE_INIT@
+
+set_and_check(EIPScanner_INCLUDE_DIR "@PACKAGE_CMAKE_INSTALL_INCLUDEDIR@/EIPScanner")
+set(EIPScanner_LIBRARY EIPScanner::EIPScanner)
+
+include("${CMAKE_CURRENT_LIST_DIR}/EIPScannerTargets.cmake")
+
+check_required_components(EIPScanner)

@@ -63,12 +63,38 @@ set_target_properties(
         VERSION ${EIPSCANNER_FULL_VERSION}
         SOVERSION ${EIPSCANNER_MAJOR_VERSION})
 
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
+# generate the version file for the config file
+write_basic_package_version_file(
+        ${CMAKE_CURRENT_BINARY_DIR}/EIPScannerConfigVersion.cmake
+        VERSION ${EIPSCANNER_FULL_VERSION}
+        COMPATIBILITY SameMajorVersion)
+
+# generate cmake config file
+configure_package_config_file(${CMAKE_SOURCE_DIR}/cmake/EIPScannerConfig.cmake.in
+        EIPScannerConfig.cmake
+        INSTALL_DESTINATION  ${CMAKE_INSTALL_LIBDIR}/cmake/EIPScanner
+        INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}/bin
+        PATH_VARS CMAKE_INSTALL_INCLUDEDIR)
+
 install(TARGETS EIPScanner EIPScannerS
-        LIBRARY
-            DESTINATION lib
-        ARCHIVE
-            DESTINATION lib)
+        EXPORT EIPScannerTargets
+        LIBRARY DESTINATION  ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION  ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}/include/EIPScanner)
 
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/
-        DESTINATION include/EIPScanner
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/EIPScanner
         FILES_MATCHING PATTERN "*.h*")
+
+install(EXPORT EIPScannerTargets
+        FILE EIPScannerTargets.cmake
+        NAMESPACE EIPScanner::
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/EIPScanner)
+
+install(FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/EIPScannerConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/EIPScannerConfigVersion.cmake
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/EIPScanner)
