@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+  <name>eipscanner</name>
+  <version>1.1.0</version>
+  <description>Free implementation of Ethernet/IP scanner in C++.</description>
+  <maintainer email="elias@tractonomy.com">Elias De Coninck</maintainer>
+
+  <license>MIT</license>
+  <author>Aleksey Timin</author>
+  <author>Adam Roth</author>
+
+  <buildtool_depend>cmake</buildtool_depend>
+  
+  <export>
+    <build_type>cmake</build_type>
+  </export>
+  
+</package>
